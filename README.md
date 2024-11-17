@@ -26,6 +26,56 @@ I am tasked with:
 - Logging the progress of all operations for debugging and monitoring purposes.
 
 ---
+## **Files and Functions**
+
+### **1. banks_project.py**
+This is the main script for running the ETL process.
+
+---
+
+### **Functions**
+
+#### **log_progress(message)**  
+- Logs progress messages with timestamps into `code_log.txt`.
+
+---
+
+#### **extract(url, table_attribs)**  
+- Scrapes the HTML content of the given URL.  
+- Extracts tabular information about the largest banks.  
+- Returns a Pandas DataFrame with columns: `Name` and `MC_USD_Billion`.
+
+---
+
+#### **transform(df)**  
+- Adds new columns for Market Capitalization in `GBP`, `EUR`, and `INR` using provided exchange rates.  
+- Rounds the values to 2 decimal places.  
+- Returns the transformed DataFrame.
+
+---
+
+#### **load_to_csv(df, csv_path)**  
+- Saves the transformed DataFrame to a CSV file.
+
+---
+
+#### **load_to_db(df, sql_connection, table_name)**  
+- Loads the transformed DataFrame into an SQLite database table.
+
+---
+
+#### **run_queries(query_statement, sql_connection)**  
+- Executes and prints SQL queries on the database.
+
+---
+
+#### **main()**  
+Orchestrates the ETL process:
+1. Logs the start of the process.  
+2. Extracts, transforms, and loads data.  
+3. Runs predefined SQL queries.  
+4. Logs the completion of the process.
+---
 ## **Input Data**
 ### **1. Source Data**
 - **URL**: [Largest Banks by Market Capitalization (Web Archive)](https://web.archive.org/web/20230908091635/https://en.wikipedia.org/wiki/List_of_largest_banks)
@@ -82,15 +132,15 @@ I am tasked with:
    ```
 2. **Outputs**
    
-   Check Largest_banks_data.csv for the transformed data.
+   Check `Largest_banks_data.csv` for the transformed data.
 
-   View the database Banks.db for structured storage.
+   View the database `Banks.db` for structured storage.
 
-   Open code_log.txt for process logs.
+   Open `code_log.txt` for process logs.
    
 3. **Run Custom Queries**
 
-   Add or modify queries in the run_queries() function.
+   Add or modify queries in the `run_queries()` function.
 
  ## **Example Outputs**
 
@@ -112,4 +162,23 @@ The log file captures the progress of the ETL process with timestamps at various
 2024-Nov-17-10:37:45: Data loaded to Database as table. Running the query.
 2024-Nov-17-10:38:15: Process Complete.
 ```
+## **Dependencies**
 
+To run this project, ensure the following dependencies are installed:
+
+### **Python Version**
+- Python 3.x
+
+### **Required Libraries**
+- `pandas`: For data manipulation and analysis.
+- `numpy`: For numerical computations.
+- `sqlite3`: For database operations.
+- `requests`: To make HTTP requests.
+- `beautifulsoup4`: For web scraping.
+
+### **Installation**
+Use the following command to install all the required libraries:
+
+```bash
+pip install pandas numpy requests beautifulsoup4
+```
