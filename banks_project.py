@@ -4,11 +4,15 @@ import pandas as pd
 import numpy as np
 import sqlite3
 from datetime import datetime 
+
+
 url = 'https://web.archive.org/web/20230908091635 /https://en.wikipedia.org/wiki/List_of_largest_banks'
 table_attribs = ["Name", "MC_USD_Billion"]
 db_name = 'Banks.db'
 table_name = 'Largest_banks'
 csv_path = './Largest_banks_data.csv'
+
+
 def log_progress(message):
     time_format= "%Y-%h-%d-%H:%M:%S"
     now=datetime.now()
@@ -36,6 +40,8 @@ log_progress('Preliminaries complete. Initiating ETL process')
 df = extract(url, table_attribs)
 print(df)
 
+
+
 def transform(df):
     data=pd.read_csv('https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMSkillsNetwork-PY0221EN-Coursera/labs/v2/exchange_rate.csv')
     dict = data.set_index('Currency').to_dict()['Rate']
@@ -43,9 +49,12 @@ def transform(df):
     df['MC_INR_Billion'] = [np.round(x*dict['INR'],2) for x in df['MC_USD_Billion']]
     df['MC_EUR_Billion'] = [np.round(x*dict['EUR'],2) for x in df['MC_USD_Billion']]
     return df
+    
 log_progress('Data extraction complete. Initiating Transformation process')
 df = transform(df)
 print("the market capitalization of the 5th largest bank in billion EUR is :" ,df['MC_EUR_Billion'][4])
+
+
 
 def load_to_csv(df, csv_path):
     df.to_csv(csv_path)
